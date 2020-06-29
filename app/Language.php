@@ -26,6 +26,7 @@ class Language extends Model
         return $query->select('id','abbr' , 'name' , 'direction' , 'active');
     }
 
+
     public function getActive()
     {
         return $this->active == 1 ? 'تم التفعيل' : 'غير مفعل ';
