@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     <div class="app-content content">
         <div class="content-wrapper">
 
@@ -12,9 +13,9 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('site.languages.index')}}"> أللغات </a>
+                                <li class="breadcrumb-item"><a href="{{route('main-cats.index')}}"> ألاقسام </a>
                                 </li>
-                                <li class="breadcrumb-item active">تعديل لغة
+                                <li class="breadcrumb-item active">تعديل قسم
                                 </li>
                             </ol>
                         </div>
@@ -29,7 +30,8 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title" id="basic-layout-form"> إضافة لغة </h4>
+                                    <h4 class="card-title" id="basic-layout-form"> تعديل قسم - <span
+                                            style="color: blue"> {{ $mainCategory->name }}</span></h4>
                                     <a class="heading-elements-toggle"><i
                                             class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
@@ -45,82 +47,89 @@
                                 @include('admin.includes.alerts.errors')
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <form class="form" action="{{route('site.languages.update',$language -> id)}}"
+
+                                        <form class="form"
+                                              action="{{ route('main-cats.update' , $mainCategory->id) }}"
                                               method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
+                                            <input type="hidden" name="id" value="{{ $mainCategory->id }}">
+
                                             <div class="form-body">
-                                                <h4 class="form-section"><i class="ft-home"></i> بيانات اللغة </h4>
+                                                <h4 class="form-section">
+                                                    <i class="ft-home"></i>
+                                                    بيانات القسم
+                                                </h4>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label> صوره القسم
+                                                        </label>
+                                                        <input type="file" value="" id="file"
+                                                               class="form-control"
+                                                               placeholder=""
+                                                               name="photo">
+                                                        @error("photo")
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <div class="text-center">
+                                                            <img class="img-thumbnail" style="width: 25%; height: 25%"
+                                                                 src="{{ $mainCategory->photo }}" alt="صوره القسم ">
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> اسم اللغة </label>
-                                                            <input type="text" id="name"
+                                                            <label> اسم القسم
+                                                                - {{__('site.'.$mainCategory -> translation_lang)}} </label>
+                                                            <input type="text"
+                                                                   id="name"
                                                                    class="form-control"
-                                                                   value="{{$language -> name}}"
-                                                                   placeholder="ادخل اسم اللغة  "
-                                                                   name="name">
-                                                            @error('name')
-                                                            <span class="text-danger">{{$message}}</span>
+                                                                   placeholder=""
+                                                                   value="{{ $mainCategory->name }}"
+                                                                   name="category[0][name]">
+                                                            @error("category.0.name")
+                                                            <span class="text-danger"> هذا الحقل مطلوب</span>
                                                             @enderror
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
+                                                    {{--                                                     Will be hidden and make default value--}}
+                                                    <div class="col-md-6 hidden">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> أختصار اللغة </label>
-                                                            <input type="text" value="{{$language -> abbr}}" id="name"
+                                                            <label> أختصار اللغة
+                                                                - {{__('site.'.$mainCategory -> translation_lang)}}
+                                                            </label>
+                                                            <input type="text" id="abbr"
                                                                    class="form-control"
-                                                                   placeholder="ادخل أختصار اللغة  "
-                                                                   name="abbr">
-                                                            @error('abbr')
-                                                            <span class="text-danger">{{$message}} </span>
+                                                                   placeholder="  "
+                                                                   value="{{$mainCategory -> translation_lang}}"
+                                                                   name="category[0][abbr]">
+
+                                                            @error("category.0.abbr")
+                                                            <span class="text-danger"> هذا الحقل مطلوب</span>
                                                             @enderror
                                                         </div>
                                                     </div>
                                                 </div>
 
-
                                                 <div class="row">
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="projectinput2"> الاتجاة </label>
-                                                            <select name="direction" class="select2 form-control">
-                                                                <optgroup label="من فضلك أختر اتجاه اللغة ">
-                                                                    <option value="rtl"
-                                                                            @if($language ->direction == 'rtl' ) selected @endif>
-                                                                        من اليمين الي اليسار
-                                                                    </option>
-                                                                    <option value="ltr"
-                                                                            @if($language ->direction == 'ltr') selected @endif>
-                                                                        من اليسار الي اليمين
-                                                                    </option>
-                                                                </optgroup>
-                                                            </select>
-                                                            @error('direction')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group mt-1">
-                                                            <input type="checkbox" value="1" name="active"
+                                                            <input type="checkbox" value="1"
+                                                                   name="category[0][active]"
                                                                    id="switcheryColor4"
                                                                    class="switchery" data-color="success"
-
-                                                                   @if($language -> active  == 1 ) checked @endif
-                                                            />
+                                                                   @if($mainCategory->active == 1)checked @endif/>
                                                             <label for="switcheryColor4"
-                                                                   class="card-title ml-1">الحالة </label>
+                                                                   class="card-title ml-1">الحالة {{__('site.'.$mainCategory -> translation_lang)}}
+                                                            </label>
 
-                                                            @error('active')
-                                                            <span class="text-danger">{{$message}}</span>
+                                                            @error("category.0.active")
+                                                            <span class="text-danger"> هذا الحقل مطلوب </span>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -138,6 +147,134 @@
                                                 </button>
                                             </div>
                                         </form>
+                                        {{--End Of Edit For The Mian Category IN Main Or Default Lanugae --}}
+
+                                        <hr>
+                                        <h3 class="text-center"
+                                            style="color: blue"> هل ترغب فى تعديل نفس القسم فى اللغات الاخرى ؟؟
+                                        </h3>
+
+                                        {{-- Begin Show The Translations of  MainCategorie in default lanuage  --}}
+
+                                        <ul class="nav nav-tabs">
+                                            @isset($mainCategory -> categories)
+                                                @foreach($mainCategory -> categories   as $index =>  $translation)
+                                                    <li class="nav-item">
+                                                        <a class="nav-link @if($index ==  0) active @endif  "
+                                                           id="homeLable-tab" data-toggle="tab"
+                                                           href="#homeLable{{$index}}" aria-controls="homeLable"
+                                                           aria-expanded="{{$index ==  0 ? 'true' : 'false'}}">
+                                                            {{$translation -> translation_lang}}</a>
+                                                    </li>
+                                                @endforeach
+                                            @endisset
+                                        </ul>
+
+
+                                        {{-- Show the data will come from (li)--}}
+                                        <div class="tab-content px-1 pt-1">
+                                            @isset($mainCategory-> categories)
+                                                @foreach($mainCategory -> categories   as $index =>  $translation)
+
+
+
+                                                    <div role="tabpanel"
+                                                         class="tab-pane  @if($index ==  0) active  @endif  "
+                                                         id="homeLable{{$index}}"
+                                                         aria-labelledby="homeLable-tab"
+                                                         aria-expanded="{{$index ==  0 ? 'true' : 'false'}}">
+
+                                                        <form class="form"
+                                                              action="{{route('main-cats.update',$translation -> id)}}"
+                                                              method="POST"
+                                                              enctype="multipart/form-data">
+                                                            @csrf
+
+                                                            <input name="id" value="{{$translation -> id}}"
+                                                                   type="hidden">
+
+
+                                                            <div class="form-body">
+
+                                                                <h4 class="form-section"><i class="ft-home"></i> بيانات
+                                                                    القسم </h4>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label for="projectinput1"> اسم القسم
+                                                                                - {{__('site.'.$translation -> translation_lang)}} </label>
+                                                                            <input type="text" id="name"
+                                                                                   class="form-control"
+                                                                                   placeholder="  "
+                                                                                   value="{{$translation -> name}}"
+                                                                                   name="category[0][name]">
+                                                                            @error("category.0.name")
+                                                                            <span
+                                                                                class="text-danger"> هذا الحقل مطلوب</span>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="col-md-6 hidden">
+                                                                        <div class="form-group">
+                                                                            <label for="projectinput1"> أختصار
+                                                                                اللغة {{__('site.'.$translation -> translation_lang)}} </label>
+                                                                            <input type="text" id="abbr"
+                                                                                   class="form-control"
+                                                                                   placeholder="  "
+                                                                                   value="{{$translation -> translation_lang}}"
+                                                                                   name="category[0][abbr]">
+
+                                                                            @error("category.0.abbr")
+                                                                            <span
+                                                                                class="text-danger"> هذا الحقل مطلوب</span>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group mt-1">
+                                                                            <input type="checkbox" value="1"
+                                                                                   name="category[0][active]"
+                                                                                   id="switcheryColor4"
+                                                                                   class="switchery"
+                                                                                   data-color="success"
+                                                                                   @if($translation -> active == 1)checked @endif/>
+                                                                            <label for="switcheryColor4"
+                                                                                   class="card-title ml-1">الحالة {{__('site.'.$translation -> translation_lang)}} </label>
+
+                                                                            @error("category.0.active")
+                                                                            <span class="text-danger"> </span>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-actions">
+                                                                <button type="button" class="btn btn-warning mr-1"
+                                                                        onclick="history.back();">
+                                                                    <i class="ft-x"></i> تراجع
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    <i class="la la-check-square-o"></i> تحديث
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+
+
+
+
+                                                @endforeach
+                                            @endisset
+                                        </div>
                                     </div>
                                 </div>
                             </div>

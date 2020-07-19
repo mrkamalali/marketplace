@@ -57,7 +57,7 @@ class LanguageController extends Controller
                     ->with(['error' => 'هذه اللغة غير موجوده']);
             }
 
-//            To Check IF Our Request Has Not A Value For Active We Should Add ..
+//            To Check IF Our Request Has Not A Value For Active.. We Should Add ..
             if (!$request->has('active'))
                 $request->request->add(['active' => 0]);
             $language->update($request->except('_token'));

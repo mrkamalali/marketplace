@@ -5,13 +5,13 @@
         <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2">
-                    <h3 class="content-header-title"> ألاقسام الرئيسيه  </h3>
+                    <h3 class="content-header-title"> ألاقسام الرئيسيه </h3>
                     <div class="row breadcrumbs-top">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">الرئيسية</a>
                                 </li>
-                                <li class="breadcrumb-item active">  ألاقسام الرئيسيه
+                                <li class="breadcrumb-item active"> ألاقسام الرئيسيه
                                 </li>
                             </ol>
                         </div>
@@ -44,13 +44,13 @@
                                 <div class="card-content collapse show">
                                     <div class="card-body card-dashboard">
                                         <table
-                                            class="table display nowrap table-striped table-bordered ">
+                                            class="table display nowrap table-striped table-bordered scroll-horizontal">
                                             <thead>
                                             <tr>
-                                                <th> الاسم</th>
-                                                <th> ألاختصار</th>
+                                                <th> القسم</th>
                                                 <th>اللغة</th>
                                                 <th>الحالة</th>
+                                                <th> الصوره</th>
                                                 <th>الإجراءات</th>
                                             </tr>
                                             </thead>
@@ -62,16 +62,25 @@
                                                         <td>{{$maincat -> name}}</td>
                                                         <td>{{$maincat -> translation_lang}}</td>
                                                         <td>{{$maincat -> getActive()}}</td>
+                                                        <td><img class="img-thumbnail"
+                                                                 style="width: 110px; height: 60px"
+                                                                 src="{{ $maincat->photo }}" alt=""></td>
                                                         <td>
                                                             <div class="btn-group" role="group"
                                                                  aria-label="Basic example">
-                                                                <a href="{{route('main-cats.edit',$maincat -> id)}}"
-                                                                   class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
 
+                                                                <a href="{{ route('main-cats.edit', $maincat->id) }}"
+                                                                   class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">تعديل
+                                                                </a>
 
-                                                                <a href="{{route('main-cats.destroy',$maincat -> id)}}"
-                                                                   class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</a>
+                                                                <a href="{{route('main-cats.delete',$maincat -> id)}}"
+                                                                   class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف
+                                                                </a>
 
+                                                                <a href=""
+
+                                                                   class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تفعيل  <i class="la la-check-square-o"></i>
+                                                                </a>
 
                                                             </div>
                                                         </td>
@@ -79,11 +88,9 @@
                                                 @endforeach
                                             @endisset
 
-
                                             </tbody>
                                         </table>
                                         <div class="justify-content-center d-flex">
-
                                         </div>
                                     </div>
                                 </div>

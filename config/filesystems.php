@@ -58,7 +58,7 @@ return [
 
         'maincats' => [
             'driver' => 'local',
-            'root' => storage_path() . '/assets/images/maincats',
+            'root' => base_path() . '/assets/images/maincats/',  // base_path  To take our new path not the default
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
         ],

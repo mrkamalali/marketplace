@@ -3,7 +3,7 @@
 
 function getActiveLang()  // he made as get_languages()
 {
-    \App\Language::active()->selection()->get();
+    return \App\Language::active()->selection()->get();
 }
 
 function getDefaultLang()
@@ -11,7 +11,7 @@ function getDefaultLang()
     return \Illuminate\Support\Facades\Config::get('app.locale');
 }
 
-function uploadImage($image, $folder)
+function uploadImage($folder, $image)
 {
     $image->store('/', $folder);
     $filename = $image->hashName();
@@ -19,3 +19,6 @@ function uploadImage($image, $folder)
     return $path;
 
 }
+
+
+
