@@ -66,13 +66,13 @@ return [
     'not_in' => ':attribute لاغٍ',
     'numeric' => 'يجب على :attribute أن يكون رقمًا',
     'present' => 'يجب تقديم :attribute',
-    'regex' => 'صيغة :attribute .غير صحيحة',
+    'regex' => '  صيغة :attribute  غير صحيحة تأكد من العدد أيضا',
     'required' => ':attribute مطلوب.',
     'required_if' => ':attribute مطلوب في حال ما إذا كان :other يساوي :value.',
     'required_unless' => ':attribute مطلوب في حال ما لم يكن :other يساوي :values.',
     'required_with' => ':attribute مطلوب إذا توفّر :values.',
     'required_with_all' => ':attribute مطلوب إذا توفّر :values.',
-    'required_without' => ':attribute مطلوب إذا لم يتوفّر :values.',
+    'required_without' => ':attribute مطلوب إذا لم يتوفّر عنصر بالفعل',
     'required_without_all' => ':attribute مطلوب إذا لم يتوفّر :values.',
     'same' => 'يجب أن يتطابق :attribute مع :other',
     'size' => [
@@ -117,6 +117,8 @@ return [
 
     'attributes' => [
         'name' => 'الاسم',
+        'abbr' => 'الاختصار',
+        'logo' => 'الصوره(الشعار)',
         'username' => 'اسم المُستخدم',
         'email' => 'البريد الالكتروني',
         'first_name' => 'الاسم الأول',
@@ -146,6 +148,8 @@ return [
         'available' => 'مُتاح',
         'size' => 'الحجم',
         'image' => 'صوره',
+        'photo' => 'الصوره',
+        'category_id' => 'القسم',
         'permissions' => 'الصلاحيات',
         'ar' => [
             'name' => 'الاسم باللغه العربيه',

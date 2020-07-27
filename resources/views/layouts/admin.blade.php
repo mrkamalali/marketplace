@@ -62,6 +62,7 @@
         body, h3, h4, li {
             font-family: 'Cairo', sans-serif;
         }
+
     </style>
 </head>
 <body
@@ -126,7 +127,7 @@
 <script>
 
     $(document).ready(function(){
-        $(".alert").delay(5000).slideUp(300);
+        $(".alert").delay(3000).slideUp(300);
     });
 
 </script>

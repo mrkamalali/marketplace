@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Observers\MainCategoryObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class MainCategory extends Model
@@ -16,6 +17,23 @@ class MainCategory extends Model
 
         ];
 
+
+//    Make This Model See Or Observe The Observe We Made MainCategoryObserver..
+    protected static function boot()
+    {
+        parent::boot();
+        MainCategory::observe(MainCategoryObserver::class);
+    }
+
+
+    public function scopeParentCategory($query)
+    {
+        return $query->where('translation_of', 0);
+    }
+
+
+
+
     public function scopeActive($query)
     {
 //        To identify specific active
@@ -25,13 +43,13 @@ class MainCategory extends Model
 
     public function scopeSelection($query)
     {
-        return $query->select('id', 'translation_lang','translation_of', 'name', 'slug', 'photo', 'active');
+        return $query->select('id', 'translation_lang', 'translation_of', 'name', 'slug', 'photo', 'active');
     }
 
 
     public function getActive()
     {
-        return $this->active == 1 ? 'مفعل' : 'غير مفعل ';
+        return $this->active == 1 ? '<span style="color: blue;fon">مفعل</span>' : '<span style="color: darkred;fon">متوقف</span>';
 
     }
 
@@ -41,9 +59,16 @@ class MainCategory extends Model
 
     }
 
+//     To get The translations Of Category not The Main Category With (Default language)
     public function categories()
     {
         return $this->hasMany(self::class, 'translation_of');
+    }
+
+
+    public function vendors()
+    {
+        return $this->hasMany(Vendor::class, 'category_id');
     }
 
 

@@ -58,7 +58,15 @@ return [
 
         'maincats' => [
             'driver' => 'local',
-            'root' => base_path() . '/assets/images/maincats/',  // base_path  To take our new path not the default
+            'root' => base_path() . '/assets/images/maincats/',  // base_path  To take our new path not the default path that exists in public so we used base_path not public_path
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
+        ],
+
+
+        'vendors' => [
+            'driver' => 'local',
+            'root' => base_path() . '/assets/images/vendors/',  // base_path  To take our new path not the default path that exists in public so we used base_path not public_path
             'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
         ],

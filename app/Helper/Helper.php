@@ -6,7 +6,7 @@ function getActiveLang()  // he made as get_languages()
     return \App\Language::active()->selection()->get();
 }
 
-function getDefaultLang()
+function getDefaultLang()  // Get Default Language From Our App Defaults..
 {
     return \Illuminate\Support\Facades\Config::get('app.locale');
 }

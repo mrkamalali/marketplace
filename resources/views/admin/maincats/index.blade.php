@@ -61,10 +61,8 @@
                                                     <tr>
                                                         <td>{{$maincat -> name}}</td>
                                                         <td>{{$maincat -> translation_lang}}</td>
-                                                        <td>{{$maincat -> getActive()}}</td>
-                                                        <td><img class="img-thumbnail"
-                                                                 style="width: 110px; height: 60px"
-                                                                 src="{{ $maincat->photo }}" alt=""></td>
+                                                        <td>{!! $maincat -> getActive() !!}</td>
+                                                        <td> <img style="width: 140px; height: 100px;" src="{{$maincat -> 	photo}}"></td>
                                                         <td>
                                                             <div class="btn-group" role="group"
                                                                  aria-label="Basic example">
@@ -77,9 +75,13 @@
                                                                    class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف
                                                                 </a>
 
-                                                                <a href=""
-
-                                                                   class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تفعيل  <i class="la la-check-square-o"></i>
+                                                                <a href="{{ route('main-cats.status', $maincat->id) }}"
+                                                                   @if ($maincat->active == 0)
+                                                                   class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1"
+                                                                   @endif
+                                                                   class="btn btn-outline-black btn-min-width box-shadow-3 mr-1 mb-1">
+                                                                    {{ $maincat->active == 1 ? 'تعطيل' : 'تفعيل' }} <i
+                                                                        class="la la-check-square-o"></i>
                                                                 </a>
 
                                                             </div>

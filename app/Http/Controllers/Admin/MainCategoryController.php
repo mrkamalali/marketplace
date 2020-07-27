@@ -7,6 +7,7 @@ use App\Http\Requests\MainCatRequest;
 use App\MainCategory;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class MainCategoryController extends Controller
 {
@@ -112,7 +113,7 @@ class MainCategoryController extends Controller
             else
                 $request->request->add(['active' => 1]);
 
-//            Making Update On Name And Active in Default MainCategory With Default Language.
+//            Making Update On Name And Active in Default MainCategoryObserver With Default Language.
             MainCategory::where('id', $id)
                 ->update([
                     'name' => $category['name'],
@@ -131,6 +132,53 @@ class MainCategoryController extends Controller
             return redirect()->route('main-cats.index')->with(['success' => 'تم التحديث بنجاح']);
         } catch (\Exception $ex) {
             return redirect()->route('main-cats.index')->with(['error' => 'حدث خطا ما برجاء المحاوله مره اخرى ']);
+        }
+    }
+
+
+    public function destroy($id)
+    {
+        try {
+
+            $mainCat = MainCategory::find($id);
+            if (!$mainCat)
+                return redirect()->route('main-cats.index')->with(['error' => 'هذا العنصر غير موجود']);
+
+            $vendors = $mainCat->vendors();
+            if (isset($vendors) && $vendors->count() > 0)
+                return redirect()->route('main-cats.index')->with(['error' => 'هذا العنصر لا يمكن حذفه يحتوى على بيانات']);
+
+//            Delete Photo From it's  Folder
+            $imagePath = Str::after($mainCat->photo, 'assets/');
+            $image = base_path('assets/' . $imagePath);
+            unlink($image);
+
+            $mainCat->categories()->delete();
+            $mainCat->delete();
+
+            return redirect()->route('main-cats.index')->with(['success' => 'تم الحذف  بنجاح']);
+
+        } catch (\Exception $ex) {
+//            return $ex;
+            return redirect()->route('main-cats.index')->with(['error' => 'حدث خطأ ما حاول لأحقا']);
+        }
+    }
+
+
+    public function status($id)
+    {
+        try {
+
+            $mainCat = MainCategory::find($id);
+            if (!$mainCat)
+                return redirect()->route('main-cats.index')->with(['error' => 'هذا العنصر غير موجود']);
+
+            $status = $mainCat->active == 1 ? 0 : 1 ;
+            $mainCat->update(['active' => $status]);
+            return redirect()->route('main-cats.index')->with(['success' => 'تم تغيير حاله القسم']);
+
+        } catch (\Exception $ex) {
+            return redirect()->route('main-cats.index')->with(['error' => 'حدث خطأ ما حاول لأحقا']);
         }
     }
 

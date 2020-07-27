@@ -29,7 +29,8 @@ class Language extends Model
 
     public function getActive()
     {
-        return $this->active == 1 ? 'تم التفعيل' : 'غير مفعل ';
+        return $this->active == 1 ? '<span style="color: blue;fon">مفعل</span>' : '<span style="color: darkred;fon">متوقف</span>';
+
     }
 
 
